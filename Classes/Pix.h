@@ -6,6 +6,7 @@
 class Pix : public cocos2d::Sprite
 {
 public:
+	public Pix(int x);
 protected:
 private:
 };

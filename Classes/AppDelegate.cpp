@@ -30,7 +30,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	auto director = Director::getInstance();
 	auto glview = director->getOpenGLView();
 	if (!glview) {
-		glview = GLViewImpl::create(" . .  .   .");
+		glview = GLViewImpl::create("Shapes");
 		//glview->setFrameSize(DESIGN_RESOLUTION_WIDTH, DESIGN_RESOLUTION_HEIGHT);
 #if (CC_PLATFORM_WIN32 == CC_TARGET_PLATFORM)
 		glview->setFrameSize(480, 800);

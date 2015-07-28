@@ -6,6 +6,7 @@
 #include "ZLog.h"
 #include "ControlLayer.h"
 #include "ZUtils.h"
+#include "BlockManager.h"
 
 USING_NS_CC;
 
@@ -63,13 +64,10 @@ void GameScene::initGame()
 	this->addChild(background, kBackground);
 	background->setPosition(VisibleRect::center());
 
+	_blockManager = BlockManager::create(0);
+	this->addChild(_blockManager, kInGame);
 }
 
-void GameScene::initValues()
-{
-
-	_gameMode = GameMode::Init;
-}
 
 void GameScene::initControls()
 {
@@ -101,6 +99,13 @@ void GameScene::startGame()
 	//ZUtils::resumeBackgroundMusic();
 }
 
+void GameScene::initValues()
+{
+	_gameMode = GameMode::Init;
+
+	_gameMode = GameMode::Playing;
+}
+
 void GameScene::pausedGame()
 {
 
@@ -115,10 +120,8 @@ bool GameScene::onTouchBegan(Touch *touch, Event *event)
 {
 	if (_gameMode == GameMode::Playing)
 	{
-	}
-
-	if (_gameMode == GameMode::Init)
-	{
+		_blockManager->next();
+		return true;
 	}
 
 	return false;

@@ -37,19 +37,19 @@ bool SplashScreen::init()
 	ZUtils::loadAd();
 	ZUtils::preloadFullAd();
 
-	_timeLoading = 3.0f;
+	_timeLoading = 2.5f;
 
 	auto logo = Sprite::create(LOGO_NEWBIE);
 	logo->setPosition(VisibleRect::center() + Vec2(0, 100));
 	this->addChild(logo);
 
-	logo->setOpacity(0);
+	logo->setOpacity(20);
 	
-	auto fadeOut = EaseQuarticActionIn::create(FadeIn::create(_timeLoading * 0.9f));
+	auto fadeOut = EaseQuarticActionIn::create(FadeIn::create(_timeLoading));
 	auto callback = CallFunc::create([this](){
 		loadGameScene();
 	});
-	auto seq = Sequence::create(fadeOut, callback, NULL);
+	auto seq = Sequence::create(fadeOut, DelayTime::create(0.5f), callback, NULL);
 
 	logo->runAction(seq);
 
@@ -61,7 +61,7 @@ void SplashScreen::loadGameScene()
 	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(SPRITES);
 
 	auto scene = GameScene::createScene();
-	auto trans = TransitionCrossFade::create(1.0f, scene);
+	auto trans = TransitionFlipY::create(1.0f, scene);
 
 	Director::getInstance()->replaceScene(trans);
 }

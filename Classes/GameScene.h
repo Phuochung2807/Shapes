@@ -22,8 +22,6 @@ enum GameLayer
 enum MainGameLayer
 {
 	kBackground,
-	kLine,
-	kDot,
 	kInGame,
 	kText,
 	kControl
@@ -31,6 +29,7 @@ enum MainGameLayer
 
 class BackgroundColor;
 class ControlLayer;
+class BlockManager;
 
 class GameScene : public cocos2d::Layer
 {
@@ -60,6 +59,7 @@ private:
 	int _gameMode;
 
 	ControlLayer *_controlLayer;
+	BlockManager* _blockManager;
 };
 
 #endif /* _GAMESCENE_H_ */

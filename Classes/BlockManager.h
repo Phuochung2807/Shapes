@@ -22,7 +22,7 @@ public:
 	virtual bool init();
 
 	void reset();
-	void next();
+	bool next();
 protected:
 	int _idx;
 	int _type;
@@ -34,6 +34,7 @@ protected:
 	void initPools();
 	void onSwitchBlock();
 	void transitionCompleted();
+	void switchTypeCompleted();
 	cocos2d::Vec2 getPositionForNextBlock(Block* b);
 
 	bool isLocking;

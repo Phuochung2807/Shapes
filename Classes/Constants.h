@@ -18,52 +18,31 @@
 #define NUM_OF_COLOR	6
 #define TYPE_BLOCK	5
 
-static const char *BLUE[TYPE_BLOCK] = {
+static const char *BACKGROUND_SHAPES[NUM_OF_COLOR] = {
 	"blue_1.png",
-	"blue_2.png",
-	"blue_3.png",
-	"blue_4.png",
-	"blue_5.png",
-};
-
-static const char *ORANGE[TYPE_BLOCK] = {
 	"orange_1.png",
-	"orange_2.png",
-	"orange_3.png",
-	"orange_4.png",
-	"orange_5.png",
-};
-
-static const char *GREEN[TYPE_BLOCK] = {
 	"green_1.png",
-	"green_2.png",
-	"green_3.png",
-	"green_4.png",
-	"green_5.png",
-};
-
-static const char *YELLOW[TYPE_BLOCK] = {
 	"yellow_1.png",
-	"yellow_2.png",
-	"yellow_3.png",
-	"yellow_4.png",
-	"yellow_5.png",
-};
-
-static const char *PINK[TYPE_BLOCK] = {
 	"pink_1.png",
-	"pink_2.png",
-	"pink_3.png",
-	"pink_4.png",
-	"pink_5.png",
+	"brown_1.png",
 };
 
-static const char *BROWN[TYPE_BLOCK] = {
-	"brown_1.png",
-	"brown_2.png",
-	"brown_3.png",
-	"brown_4.png",
-	"brown_5.png",
+static const char *INLINE_SHAPE[NUM_OF_COLOR] = {
+	"blue_inline_.png",
+	"orange_inline_.png",
+	"green_inline_.png",
+	"yellow_inline_.png",
+	"pink_inline_.png",
+	"brown_inline_.png",
+};
+
+static const char *INLINE_FILL[NUM_OF_COLOR] = {
+	"blue_inline.png",
+	"orange_inline.png",
+	"green_inline.png",
+	"yellow_inline.png",
+	"pink_inline.png",
+	"brown_inline.png",
 };
 
 #define UI_LOGO	"logo.png"

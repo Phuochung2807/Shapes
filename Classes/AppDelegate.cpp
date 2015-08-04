@@ -20,7 +20,8 @@ void AppDelegate::initGLContextAttrs()
 {
 	//set OpenGL context attributions,now can only set six attributions:
 	//red,green,blue,alpha,depth,stencil
-	GLContextAttrs glContextAttrs = { 8, 8, 8, 8, 24, 8 };
+	//GLContextAttrs glContextAttrs = { 8, 8, 8, 8, 24, 8 };
+	GLContextAttrs glContextAttrs = { 5, 6, 5, 0, 16, 8 };
 
 	GLView::setGLContextAttrs(glContextAttrs);
 }
@@ -55,12 +56,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	count++;
 	UserDefault::getInstance()->setIntegerForKey(KEY_CURRENT_COUNT_OPEN_APP, count);
 
-	//preload music
-	//CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(MUSIC_BACKGROUND);
-	//CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(SOUND_DOT);
-	//CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(SOUND_FAIL);
-	//CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(SOUND_SUCC);
-
 	// create a scene. it's an autorelease object
 	auto scene = SplashScreen::createScene();
 
@@ -71,11 +66,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
-void AppDelegate::applicationDidEnterBackground() {
+void AppDelegate::applicationDidEnterBackground() 
+{
 	Director::getInstance()->stopAnimation();
 }
 
 // this function will be called when the app is active again
-void AppDelegate::applicationWillEnterForeground() {
+void AppDelegate::applicationWillEnterForeground() 
+{
 	Director::getInstance()->startAnimation();
 }

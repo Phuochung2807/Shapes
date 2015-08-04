@@ -1,5 +1,6 @@
 #include "Block.h"
 #include "Constants.h"
+#include "SpriteData.h"
 
 USING_NS_CC;
 
@@ -19,12 +20,32 @@ Block* Block::create(int color, int type)
 
 bool Block::init()
 {
-	std::string spritename = getSprite(_color, _type);
-	if (!Sprite::initWithSpriteFrameName(spritename))
+	if (!Node::init())
 	{
 		return false;
 	}
+	BlockDataSprite* data = SpriteData::getIntance()->_data.at(_color);
 
+	this->_content = Sprite::createWithSpriteFrameName(data->background);
+	this->_content->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+
+	_stencil = Sprite::createWithSpriteFrameName(data->inline_fill);
+	_stencil->retain();
+
+	auto clipper = ClippingNode::create();
+	clipper->setInverted(true);
+	clipper->setAlphaThreshold(0.5f);
+	clipper->setStencil(_stencil);
+
+
+	clipper->addChild(_content);
+
+	_shape = Sprite::createWithSpriteFrameName(data->inline_shape);
+	this->addChild(_shape, 1);
+
+	this->setZScaleX(getScaleShape(_type));
+
+	this->addChild(clipper, 0);
 	return true;
 }
 
@@ -33,25 +54,40 @@ bool Block::isMatch(int color)
 	return isVisible() && _color == color;
 }
 
-std::string Block::getSprite(int color, int type)
+float Block::getScaleShape(int type)
 {
-	switch (color)
+	switch (type)
 	{
 	case 0:
-		return BLUE[type];
+		return 1.0f;
 	case 1:
-		return ORANGE[type];
+		return 213.0f / 320.0f;
 	case 2:
-		return GREEN[type];
+		return 160.0f / 320.0f;
 	case 3:
-		return YELLOW[type];
+		return 128.0f / 320.0f;
 	case 4:
-		return PINK[type];
-	case 5:
-		return BROWN[type];
+		return 106.0f / 320.0f;
 	default:
-		return "";
+		break;
 	}
+}
+
+float Block::getCurrentScaleX()
+{
+	return _content->getScaleX();
+}
+
+void Block::setZScaleX(float scaleX)
+{
+	_content->setScaleX(scaleX);
+	_stencil->setPosition(getZWidth() / 2.0f, _content->getContentSize().height / 2.0f);
+	_shape->setPosition(getZWidth() / 2.0f, _content->getContentSize().height / 2.0f);
+}
+
+float Block::getZWidth()
+{
+	return _content->getContentSize().width * _content->getScaleX();
 }
 
 

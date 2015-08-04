@@ -1,8 +1,8 @@
 #include "BlockManager.h"
 #include "Block.h"
 #include "Constants.h"
+#include "ScaleCustomAction.h"
 USING_NS_CC;
-
 
 BlockManager* BlockManager::create(int idx)
 {
@@ -32,18 +32,13 @@ bool BlockManager::init()
 
 void BlockManager::initPools()
 {
-
-	for (int type = 0; type < TYPE_BLOCK; type++)
+	for (int color = 0; color < NUM_OF_COLOR; color++)
 	{
-		for (int color = 0; color < NUM_OF_COLOR; color++)
+		for (int k = 0; k < 2; k++)
 		{
-			for (int k = 0; k < 2; k++)
-			{
-				auto b = Block::create(color, type);
-				b->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-				_blocksPools.push_back(b);
-				this->addChild(b);
-			}
+			auto b = Block::create(color, 0);
+			_blocksPools.push_back(b);
+			this->addChild(b);
 		}
 	}
 }
@@ -56,37 +51,56 @@ Vec2 BlockManager::getPositionForBlock(int blockId, int type)
 
 Block* BlockManager::getBlock(int color, int type)
 {
-	auto tmp = _blocksPools.at(NUM_OF_COLOR * (type) + color * 2);
+	auto tmp = _blocksPools.at(color * 2);
 	if (tmp->isVisible())
-		return _blocksPools.at(NUM_OF_COLOR * (type) + color * 2 + 1);
-	else
-		return tmp;
+	{
+		tmp = _blocksPools.at(color * 2 + 1);
+	}
+	tmp->setZScaleX(Block::getScaleShape(type));
+	return tmp;
 }
 
-void BlockManager::next()
+bool BlockManager::next()
 {
 	if (isLocking)
 		return;
+
 	isLocking = true;
 	bool noticeSwitch = false;
 	_type = getBMTypeByCount(_count, noticeSwitch);
 	if (noticeSwitch)
 	{
-		_currentBlocks.clear();
+		auto b = getBlock(_currentBlocks.size(), _type - 3);
+		b->setPosition(640.0f, 0.0f);
+		b->setVisible(true);
+		_currentBlocks.push_back(b);
 
+		for (int i = 0, imax = _currentBlocks.size() - 1; i < imax; i++)
+		{
+			_currentBlocks[i]->runAction(ScaleCustomAction::create(0.5f, Block::getScaleShape(_type - 2), i * widthBlock[_type]));
+		}
+		_currentBlocks.at(_currentBlocks.size() - 1)->runAction(Sequence::create(ScaleCustomAction::create(0.5f, Block::getScaleShape(_type - 2), (_currentBlocks.size() - 1) * widthBlock[_type]), CallFunc::create([this](){
+			switchTypeCompleted();
+		}), NULL));
+		return true;
 	}
 	else
 	{
-		auto b = getBlock(_currentBlocks.at(0)->getZColor(), _currentBlocks.at(0)->getZType());
-		b->setVisible(true);
+		auto b = getBlock(_currentBlocks.at(0)->getZColor(), _type - 2);
 		b->setPosition(getPositionForNextBlock(_currentBlocks.at(_currentBlocks.size() - 1)));
 		b->setVisible(true);
 		_currentBlocks.push_back(b);
-		this->runAction(Sequence::create(MoveBy::create(TIME_TRANSITION[_type], Vec2(-widthBlock[_type], 0)), CallFunc::create([this](){
+
+		for (int i = 0, imax = _currentBlocks.size() - 1; i < imax; i++)
+		{
+			auto b = _currentBlocks.at(i);
+			b->runAction(MoveBy::create(TIME_TRANSITION[_type], Vec2(-widthBlock[_type], 0)));
+		}
+		_currentBlocks.at(_currentBlocks.size() - 1)->runAction(Sequence::create(MoveBy::create(TIME_TRANSITION[_type], Vec2(-widthBlock[_type], 0)), CallFunc::create([this](){
 			transitionCompleted();
 		}), NULL));
 	}
-
+	return false;
 }
 
 
@@ -95,6 +109,7 @@ void BlockManager::reset()
 	for (auto b : _blocksPools)
 	{
 		b->setVisible(false);
+		b->setZScaleX(1.0f);
 	}
 
 	_currentBlocks.clear();
@@ -128,27 +143,27 @@ void BlockManager::transitionCompleted()
 
 Vec2 BlockManager::getPositionForNextBlock(Block* b)
 {
-	float x = 0;
-	x = b->getPositionX() + b->getContentSize().width;
+	float x = b->getPositionX();
+	x += b->getZWidth();
 	return Vec2(x, 0);
 }
 
 int BlockManager::getBMTypeByCount(int count, bool& noticeSwitch)
 {
 	int newtype = -1;
-	if (count < 2)
+	if (count < 3)
 	{
 		newtype =  BlockManagerType::B_2;
 	}
-	else if (count < 6)
+	else if (count < 7)
 	{
 		newtype = BlockManagerType::B_3;
 	}
-	else if (count < 10)
+	else if (count < 12)
 	{
 		newtype = BlockManagerType::B_4;
 	}
-	else if (count < 14)
+	else if (count < 20)
 	{
 		newtype = BlockManagerType::B_5;
 	}
@@ -158,6 +173,12 @@ int BlockManager::getBMTypeByCount(int count, bool& noticeSwitch)
 	}
 	noticeSwitch = (newtype != _type);
 	return newtype;
+}
+
+void BlockManager::switchTypeCompleted()
+{
+	_count++;
+	isLocking = false;
 }
 
 

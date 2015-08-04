@@ -96,6 +96,7 @@ void GameScene::startGame()
 {
 	initValues();
 
+
 	//ZUtils::resumeBackgroundMusic();
 }
 
@@ -116,14 +117,23 @@ void GameScene::resumeGame()
 
 }
 
+int count = 0;
 bool GameScene::onTouchBegan(Touch *touch, Event *event)
 {
 	if (_gameMode == GameMode::Playing)
 	{
+		if (count == 12)
+		{
+			count = 0;
+			_blockManager->reset();
+			return true;
+		}
+
 		_blockManager->next();
+		count++;
 		return true;
 	}
-
+	
 	return false;
 }
 

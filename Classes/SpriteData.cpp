@@ -16,16 +16,16 @@ SpriteData* SpriteData::getIntance()
 void SpriteData::init()
 {
 	int aaa[] = { 0, 1, 2, 3, 4, 5 };
-	int numofloop = cocos2d::RandomHelper::random_int(3, 5);
-	for (int i = 0; i < numofloop; i++)
-	{
-		int a = cocos2d::RandomHelper::random_int(1, 3);
-		int b = cocos2d::RandomHelper::random_int(3, NUM_OF_COLOR - 2);
-		if (a != b)
-		{
-			std::swap(aaa[a], aaa[b]);
-		}
-	}
+	//int numofloop = cocos2d::RandomHelper::random_int(3, 5);
+	//for (int i = 0; i < numofloop; i++)
+	//{
+	//	int a = cocos2d::RandomHelper::random_int(1, 3);
+	//	int b = cocos2d::RandomHelper::random_int(3, NUM_OF_COLOR - 2);
+	//	if (a != b)
+	//	{
+	//		std::swap(aaa[a], aaa[b]);
+	//	}
+	//}
 
 	for (int i = 0; i < NUM_OF_COLOR; i++)
 	{

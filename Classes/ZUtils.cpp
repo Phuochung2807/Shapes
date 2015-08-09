@@ -13,14 +13,17 @@ USING_NS_CC;
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
 #include "CSUtils.h"
 #endif
+
+
 void ZUtils::playEffect(const char* path)
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(path);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(path, false, 1.0f);
 }
 
 void ZUtils::playBackgroundMusic(const char* path, bool isLoop)
 {
 	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(path, isLoop);
+	CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(0.5f);
 }
 
 void ZUtils::stopBackgroundMusic()
@@ -127,4 +130,14 @@ bool ZUtils::is_number(char * s)
 
 
 	return true;
+}
+
+void ZUtils::reloadSound()
+{
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic(MUSIC_BACKGROUND);
+
+	for (int i = 0; i < NUM_OF_SOUND; i++)
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(GAME_SOUNDS[i]);
+	}
 }

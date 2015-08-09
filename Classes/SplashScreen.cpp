@@ -34,12 +34,14 @@ bool SplashScreen::init()
 		return false;
 	}
 
-	ZUtils::loadAd();
-	ZUtils::preloadFullAd();
+	//ZUtils::loadAd();
+	//ZUtils::preloadFullAd();
 
 	_timeLoading = 2.5f;
 
-	auto logo = Sprite::create(LOGO_NEWBIE);
+	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(SPRITES);
+
+	auto logo = Sprite::createWithSpriteFrameName(LOGO_NEWBIE);
 	logo->setPosition(VisibleRect::center() + Vec2(0, 100));
 	this->addChild(logo);
 
@@ -58,10 +60,8 @@ bool SplashScreen::init()
 
 void SplashScreen::loadGameScene()
 {
-	SpriteFrameCache::getInstance()->addSpriteFramesWithFile(SPRITES);
-
 	auto scene = GameScene::createScene();
-	auto trans = TransitionFlipY::create(1.0f, scene);
+	auto trans = TransitionFadeDown::create(1.0f, scene);
 
 	Director::getInstance()->replaceScene(trans);
 }

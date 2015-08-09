@@ -34,6 +34,7 @@ bool ZButton::init()
 	if (_menu == NULL)//chua co menu
 	{
 		_menu = Menu::create();
+		_menu->setPosition(0, 0);
 	}
 
 	if (_type == ZButtonStyle::CLICK)

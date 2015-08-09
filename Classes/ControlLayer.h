@@ -18,12 +18,30 @@ public:
 	static ControlLayer* create(GameScene *gamescene);
 
 	virtual bool init();
-	void showState(int state);
+
+	void createControls();
+
+	void showState(int state = 0);
 	void hide();
 private:
 	CC_SYNTHESIZE(GameScene*, _gameScene, GameScene);
 	void startGame();
+	void btPlayClicked();
+	void btRetryClicked();
+	void createLabels();
+	void addScore(int amount);
 	cocos2d::Size _visibleSize;
+
+	ZButton *_btPlay, *_btRery;
+	cocos2d::Sprite* _logo;
+	cocos2d::Label *_score, *_lbScore;
+	cocos2d::Label *_highScore, *_lbHighscore;
+
+	bool isShowStart;
+
+	bool isRetryState;
+
+	int _iscore;
 };
 
 #endif

@@ -2,6 +2,8 @@
 #include "Block.h"
 #include "Constants.h"
 #include "ScaleCustomAction.h"
+#include "Pix.h"
+
 USING_NS_CC;
 
 BlockManager* BlockManager::create(int idx)
@@ -63,7 +65,7 @@ Block* BlockManager::getBlock(int color, int type)
 bool BlockManager::next()
 {
 	if (isLocking)
-		return;
+		return false;
 
 	isLocking = true;
 	bool noticeSwitch = false;
@@ -77,9 +79,9 @@ bool BlockManager::next()
 
 		for (int i = 0, imax = _currentBlocks.size() - 1; i < imax; i++)
 		{
-			_currentBlocks[i]->runAction(ScaleCustomAction::create(0.5f, Block::getScaleShape(_type - 2), i * widthBlock[_type]));
+			_currentBlocks[i]->runAction(ScaleCustomAction::create(0.35f, Block::getScaleShape(_type - 2), i * widthBlock[_type]));
 		}
-		_currentBlocks.at(_currentBlocks.size() - 1)->runAction(Sequence::create(ScaleCustomAction::create(0.5f, Block::getScaleShape(_type - 2), (_currentBlocks.size() - 1) * widthBlock[_type]), CallFunc::create([this](){
+		_currentBlocks.at(_currentBlocks.size() - 1)->runAction(Sequence::create(ScaleCustomAction::create(0.35f, Block::getScaleShape(_type - 2), (_currentBlocks.size() - 1) * widthBlock[_type]), CallFunc::create([this](){
 			switchTypeCompleted();
 		}), NULL));
 		return true;
@@ -151,19 +153,19 @@ Vec2 BlockManager::getPositionForNextBlock(Block* b)
 int BlockManager::getBMTypeByCount(int count, bool& noticeSwitch)
 {
 	int newtype = -1;
-	if (count < 3)
+	if (count < 2)
 	{
 		newtype =  BlockManagerType::B_2;
 	}
-	else if (count < 7)
+	else if (count < 10)
 	{
 		newtype = BlockManagerType::B_3;
 	}
-	else if (count < 12)
+	else if (count < 18)
 	{
 		newtype = BlockManagerType::B_4;
 	}
-	else if (count < 20)
+	else if (count < 30)
 	{
 		newtype = BlockManagerType::B_5;
 	}
@@ -179,6 +181,30 @@ void BlockManager::switchTypeCompleted()
 {
 	_count++;
 	isLocking = false;
+}
+
+int BlockManager::getType()
+{
+	return _type;
+}
+
+bool BlockManager::isMatching(Pix* pix)
+{
+	Block* b = getLane(pix->getTag());
+	if (b->isMatch(pix->getZColor()))
+	{
+		return true;
+	}
+	return false;
+}
+
+Block* BlockManager::getLane(int lane)
+{
+	if (lane >= 0 && lane < _currentBlocks.size())
+	{
+		return _currentBlocks[lane];
+	}
+	return NULL;
 }
 
 

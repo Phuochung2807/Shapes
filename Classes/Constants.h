@@ -9,7 +9,7 @@
 #define DESIGN_RESOURCE_PATH "640"
 
 #define FONT_BUTTON "fonts/fontnewF.txt"
-#define FONT_NUMBER	"fonts/number2F.txt"
+#define FONT_NUMBER	"fonts/font.txt"
 
 #define SPRITE_BACKGROUND "background.png"
 
@@ -45,6 +45,24 @@ static const char *INLINE_FILL[NUM_OF_COLOR] = {
 	"brown_inline.png",
 };
 
+static const char *SHAPES[NUM_OF_COLOR] = {
+	"blue.png",
+	"orange.png",
+	"green.png",
+	"yellow.png",
+	"pink.png",
+	"brown.png",
+};
+
+static const char *PARTICLES[NUM_OF_COLOR] = {
+	"blue.plist",
+	"orange.plist",
+	"green.plist",
+	"yellow.plist",
+	"pink.plist",
+	"brown.plist",
+};
+
 #define UI_LOGO	"logo.png"
 
 #define UI_GAMEOVER	"gameover.png"
@@ -52,21 +70,32 @@ static const char *INLINE_FILL[NUM_OF_COLOR] = {
 #define UI_BT_PLAY_NORMAL	"ui_bt_play_normal.png"
 #define UI_BT_PLAY_PRESS	"ui_bt_play_press.png"
 
-#define UI_BT_REPLY_NORMAL	"ui_bt_replay_normal.png"
-#define UI_BT_REPLY_PRESS	"ui_bt_replay_press.png"
+#define UI_BT_RETRY_NORMAL	"ui_bt_replay_normal.png"
+#define UI_BT_RETRY_PRESS	"ui_bt_replay_press.png"
+
+#define UI_BG_HOWTOPLAY	"howtoplay.png"
+
+#define UI_BT_ALREADY_NORMAL	"taptoplay.png"
+#define UI_BT_ALREADY_PRESS		"taptoplay.png"
 
 #define LOGO_NEWBIE	"LOGO_Newbie.png"
 
 #define KEY_HIGH_SCORE	"key_high_score"
 #define KEY_CURRENT_COUNT_OPEN_APP	"key_current_count_open_app"
+#define KEY_COMPLETED_TUTORIAL	"key_completed_tutorial"
 
 #define AD_MOB_ID "ca-app-pub-3738202989627662/7310321232"
 #define AD_MOB_INTER_ID	"ca-app-pub-3738202989627662/8787054433"
 
-#if(CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)//android, win32 => .mp3
+//#define AD_MOB_ID "ca-app-pub-3738202989627662/4770703634"
+//#define AD_MOB_INTER_ID	"ca-app-pub-3738202989627662/6247436830"
 
-#else(CC_TARGET_PLATFORM == CC_PLATFORM_WP8)//wp8 => .wav
-
-#endif
+static const float INIT_POSITION[5][6] = {
+	{160.0f, 480.0f},
+	{107.0f, 320.0f, 533.0f},
+	{80.0f, 240.0f, 400.0f, 560.0f},
+	{64.0f, 192.0f, 320.0f, 448.0f, 576.0f},
+	{53.0f, 159.0f, 265.0f, 371.0f, 477.0f, 583.0f},
+};
 
 #endif

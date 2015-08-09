@@ -30,6 +30,8 @@ enum MainGameLayer
 class BackgroundColor;
 class ControlLayer;
 class BlockManager;
+class PixManager;
+class Pix;
 
 class GameScene : public cocos2d::Layer
 {
@@ -53,13 +55,36 @@ private:
 	void initValues();
 	void initControls();
 
-	void pausedGame();
-	void resumeGame();
+	//void pausedGame();
+	//void resumeGame();
 
+	void onLoose();
+	void onRestart();
+	void checkMatch(Pix* param1);
+	void updateScore();
 	int _gameMode;
 
 	ControlLayer *_controlLayer;
 	BlockManager* _blockManager;
+	PixManager* _pixManager;
+
+	std::vector<Pix*> _currentPixs;
+
+	int _iScore;
+	cocos2d::Label* _lbScore;
+
+	int countLost;
+	int countAppOpen;
+	int rateShowAd;
+	bool isShowAdFull;
+	bool isNeedLoadAdFull;
+
+	//speed game
+	float _timeMovePix;
+	float _rateCreatePix;
+
+	float _timer;
+
 };
 
 #endif /* _GAMESCENE_H_ */

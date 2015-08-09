@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "Config.h"
 #include "SimpleAudioEngine.h"
+#include "ZUtils.h"
 
 USING_NS_CC;
 
@@ -47,7 +48,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	fileUtils->addSearchPath(DESIGN_RESOURCE_PATH);
 
 	// turn on display FPS
-	director->setDisplayStats(IS_DEBUG_MODE);
+	director->setDisplayStats(false);
 
 	// set FPS. the default value is 1.0/60 if you don't call this
 	director->setAnimationInterval(1.0 / 60.0f);
@@ -58,6 +59,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	// create a scene. it's an autorelease object
 	auto scene = SplashScreen::createScene();
+
+	ZUtils::reloadSound();
+	ZUtils::loadAd();
+	ZUtils::showAd();
+	ZUtils::preloadFullAd();
 
 	// run
 	director->runWithScene(scene);

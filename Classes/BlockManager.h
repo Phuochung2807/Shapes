@@ -11,9 +11,10 @@ enum BlockManagerType{
 	B_6,
 };
 
-static float TIME_TRANSITION[] = {0, 0, 0.5f, 0.45f, 0.45f, 0.4f, 0.4f};
+static float TIME_TRANSITION[] = {0, 0, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f};
 static float widthBlock[] = {0, 0, 320.0f, 213.0f, 160.0f, 128.0f, 106.0f};
 class Block;
+class Pix;
 
 class BlockManager : public cocos2d::Node
 {
@@ -23,10 +24,13 @@ public:
 
 	void reset();
 	bool next();
+
+	int getType();
+
 protected:
 	int _idx;
 	int _type;
-	int _idxLast;
+	int _idxLast;	
 	std::vector<Block*> _blocksPools;
 	std::vector<Block*> _currentBlocks;
 	cocos2d::Vec2 getPositionForBlock(int blockId, int type);
@@ -41,6 +45,8 @@ protected:
 	CC_SYNTHESIZE(int, _count, Count);
 
 	int getBMTypeByCount(int count, bool& noticeSwitch);
+	bool isMatching(Pix* pix);
+	Block* getLane(int lane);
 };
 
 #endif

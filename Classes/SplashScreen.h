@@ -12,8 +12,6 @@ public:
 
 private:
 	float _timeLoading;
-
-
 	void loadGameScene();
 };
 
